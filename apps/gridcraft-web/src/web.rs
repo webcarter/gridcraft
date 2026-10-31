@@ -28,6 +28,9 @@ pub fn start() {
                 let mut descriptor = default_descriptor(adapter);
 
                 descriptor.required_limits = descriptor.required_limits.or_worse_values_from(&adapter.limits());
+                // Older mobile GPUs and WebGL implementations may expose a lower texture limit.
+                descriptor.required_limits.max_texture_dimension_2d =
+                    descriptor.required_limits.max_texture_dimension_2d.min(4096);
 
                 descriptor
             });
